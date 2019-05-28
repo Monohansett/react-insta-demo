@@ -7,7 +7,6 @@ export default function Feed() {
 	return (
 		<div className="container feed">
 			<Posts></Posts>
-			<Users/>
 		</div>
 	)
 }

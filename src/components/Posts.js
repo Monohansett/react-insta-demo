@@ -3,6 +3,8 @@ import User from './User';
 import Instaservice from '../services/instaservice';
 import ErrorMessage from '../components/ErrorMessage';
 import Users from './Users';
+import LoadingSpinner from '../components/LoadingSpinner'
+
 
 export default class Posts extends Component {
 
@@ -11,6 +13,7 @@ export default class Posts extends Component {
     state = {
         posts: [],
         error: false,
+        loading: true
     }
 
     componentDidMount() {
@@ -25,13 +28,15 @@ export default class Posts extends Component {
 
     onPostsLoaded = (posts) => {
         this.setState({
-            posts
+            posts,
+            loading: false
         })
     }
 
     onError = (err) => {
         this.setState({
-            error: true
+            error: true,
+            loading: true,
         })
     }
 
@@ -62,13 +67,14 @@ export default class Posts extends Component {
 
     renderUsers(arr) {
         return arr.map(user => {
-            const { name, photo, altname } = user;
+            const { name, photo, altname, id } = user;
 
             return (
                 <User
                     src={photo}
                     alt={altname}
                     name={name}
+                    key={id}
                     min
                 />
             )
@@ -77,10 +83,15 @@ export default class Posts extends Component {
 
     render() {
 
-        const { error, posts } = this.state;
+        const { error, posts, loading } = this.state;
         if (error) {
             return <ErrorMessage />
         }
+
+        if (loading) {
+            return <LoadingSpinner/>
+        }
+
 
         const items = this.renderPosts(posts);
         const users = this.renderUsers(posts);

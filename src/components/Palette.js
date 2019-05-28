@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ErrorMessage from './ErrorMessage';
 import Instaservice from '../services/instaservice';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 export default class Palette extends Component {
     Instaservice = new Instaservice();
@@ -8,6 +9,7 @@ export default class Palette extends Component {
     state = {
         photos: [],
         error: false,
+        loading: true,
     }
 
     componentDidMount() {
@@ -17,18 +19,20 @@ export default class Palette extends Component {
     updatePhotos() {
         this.Instaservice.getAllPhotos()
             .then(this.onPhotosLoaded)
-            .catch()
+            .catch(this.onError)
     }
 
     onPhotosLoaded = (photos) => {
         this.setState({
-            photos
+            photos,
+            loading: false
         })
     }
 
     onError = (err) => {
         this.setState({
-            error: true
+            error: true,
+            loading: true
         })
     }
 
@@ -43,9 +47,13 @@ export default class Palette extends Component {
     }
 
     render() {
-        const { error, photos } = this.state;
+        const { error, photos, loading } = this.state;
         if (error) {
             return <ErrorMessage />
+        }
+        
+        if (loading) {
+            return <LoadingSpinner/>
         }
 
         const items = this.renderPhotos(photos);

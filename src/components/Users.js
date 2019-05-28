@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import User from './User';
-import Posts from '../components/Posts';
 
 export default class Users extends Component {
 

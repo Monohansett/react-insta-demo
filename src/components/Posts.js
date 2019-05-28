@@ -10,7 +10,6 @@ export default class Posts extends Component {
 
     state = {
         posts: [],
-        users: [],
         error: false,
     }
 
@@ -29,8 +28,6 @@ export default class Posts extends Component {
             posts
         })
     }
-
-
 
     onError = (err) => {
         this.setState({
@@ -86,9 +83,7 @@ export default class Posts extends Component {
         }
 
         const items = this.renderPosts(posts);
-
         const users = this.renderUsers(posts);
-
 
         return (
             <>
